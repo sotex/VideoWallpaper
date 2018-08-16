@@ -20,6 +20,7 @@
 
 #### 使用说明
 
+![软件使用界面](https://images.gitee.com/uploads/images/2018/0816/232549_22daa8a6_132549.png "QQ截图20180816232526.png")
 
 #### 参与贡献
 
