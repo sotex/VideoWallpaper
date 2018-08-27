@@ -98,11 +98,11 @@ void VlcPlayer::stopPlay()
 void VlcPlayer::setMute(bool mute)
 {
 	// 状态变化
-	m_iVolume = mute ? 0 : m_iVolume;
+	int Volume = mute ? 0 : m_iVolume;
 	// 当前若是没有播放，退出
 	if (!m_bPlaying) { return; }
 	// 设置静音
-	libvlc_audio_set_volume(m_vlcMplay, m_iVolume);
+	libvlc_audio_set_volume(m_vlcMplay, Volume);
 }
 
 void VlcPlayer::setVolume(int volume)
@@ -166,8 +166,8 @@ void VlcPlayer::continuePlay()
 
 bool VlcPlayer::isPlaying()
 {
-	// libvlc_media_player_is_playing(m_vlcMplay);
-	return m_bPlaying;
+	return m_bPlaying && libvlc_media_player_is_playing(m_vlcMplay);
+	//return m_bPlaying;
 }
 
 int64_t VlcPlayer::getMediaTimeLength()
