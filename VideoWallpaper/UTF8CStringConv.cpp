@@ -23,8 +23,9 @@ std::string UTF8CStringConv::ConvertCStringToUTF8(CString strValue)
 	std::string buffer;
 	buffer.resize(length);
 
-	WideCharToMultiByte(CP_UTF8, 0, strValue, -1,
+	length = WideCharToMultiByte(CP_UTF8, 0, strValue, -1,
 		(LPSTR)(buffer.data()), length, NULL, NULL);
+	buffer.pop_back(); // 结尾'\0'
 	return(buffer);
 }
 
