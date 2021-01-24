@@ -1,9 +1,20 @@
 <RCC>
     <qresource prefix="/">
+        <file>icon/play.ico</file>
+        <file>icon/VideoWallpaper.ico</file>
         <file>icon/pause.ico</file>
         <file>icon/pause.png</file>
-        <file>icon/play.ico</file>
         <file>icon/stop.ico</file>
         <file>icon/stop.png</file>
+        <file>qss/AMOLED.qss</file>
+        <file>qss/Aqua.qss</file>
+        <file>qss/ConsoleStyle.qss</file>
+        <file>qss/ElegantDark.qss</file>
+        <file>qss/LICENSE</file>
+        <file>qss/MacOS.qss</file>
+        <file>qss/ManjaroMix.qss</file>
+        <file>qss/MaterialDark.qss</file>
+        <file>qss/NeonButtons.qss</file>
+        <file>qss/Ubuntu.qss</file>
     </qresource>
 </RCC>

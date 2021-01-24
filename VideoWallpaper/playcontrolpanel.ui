@@ -10,10 +10,17 @@
     <height>646</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>Form</string>
+  <property name="acceptDrops">
+   <bool>true</bool>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,1">
+  <property name="windowTitle">
+   <string>视频壁纸</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="res.qrc">
+    <normaloff>:/icon/VideoWallpaper.ico</normaloff>:/icon/VideoWallpaper.ico</iconset>
+  </property>
+  <layout class="QVBoxLayout" name="_vLayoutTop" stretch="0,1">
    <item>
     <layout class="QHBoxLayout" name="_hLayoutPlayControl">
      <item>
@@ -45,14 +52,30 @@
         </widget>
        </item>
        <item>
-        <widget class="QSlider" name="_hSliderProcess">
+        <widget class="QSlider" name="_hSliderProgress">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="invertedAppearance">
+          <bool>false</bool>
+         </property>
+         <property name="invertedControls">
+          <bool>false</bool>
+         </property>
+         <property name="tickPosition">
+          <enum>QSlider::NoTicks</enum>
          </property>
         </widget>
        </item>
        <item>
         <layout class="QHBoxLayout" name="_hLayoutControlButton">
+         <item>
+          <widget class="QPushButton" name="_btnStop">
+           <property name="text">
+            <string>停止</string>
+           </property>
+          </widget>
+         </item>
          <item>
           <widget class="QPushButton" name="_btnPrve">
            <property name="text">
@@ -62,8 +85,15 @@
          </item>
          <item>
           <widget class="QPushButton" name="_btnPlayOrPause">
+           <property name="toolTip">
+            <string>播放或暂停</string>
+           </property>
            <property name="text">
             <string>播放</string>
+           </property>
+           <property name="icon">
+            <iconset resource="res.qrc">
+             <normaloff>:/icon/play.ico</normaloff>:/icon/play.ico</iconset>
            </property>
           </widget>
          </item>
@@ -89,6 +119,9 @@
          </item>
          <item>
           <widget class="QPushButton" name="_btnShowPlayList">
+           <property name="toolTip">
+            <string>展开播放列表</string>
+           </property>
            <property name="text">
             <string>列表</string>
            </property>
@@ -109,6 +142,12 @@
       <layout class="QVBoxLayout" name="_vLayoutVolume">
        <item>
         <widget class="QSlider" name="_vSliderVolume">
+         <property name="maximum">
+          <number>100</number>
+         </property>
+         <property name="sliderPosition">
+          <number>60</number>
+         </property>
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
@@ -130,6 +169,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
  <connections/>
 </ui>

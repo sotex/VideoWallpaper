@@ -39,7 +39,9 @@ public:
 	// 继续播放
 	void continuePlay();
 	// 是否正在播放
-	bool isPlaying();
+    bool isPlaying();
+    // 获取当前音量值
+    int getVolume() const;
 
 	/// ********************************************************************************
 	/// <summary>
@@ -49,6 +51,7 @@ public:
 	/// <created>ymwh@foxmail.com,2018/3/13</created>
 	/// ********************************************************************************
 	int64_t getMediaTimeLength();
+
 	/// ********************************************************************************
 	/// <summary>
 	/// 获取媒体当前播放到的位置(已经播放毫秒数)
@@ -57,6 +60,7 @@ public:
 	/// <created>ymwh@foxmail.com,2018/3/13</created>
 	/// ********************************************************************************
 	int64_t getMediaPlayTime();
+
 	/// ********************************************************************************
 	/// <summary>
 	/// 获取媒体当前播放到的位置
@@ -64,7 +68,8 @@ public:
 	/// <returns>已经播放部分占全部比例，0.0-1.0之间</returns>
 	/// <created>ymwh@foxmail.com,2018/3/13</created>
 	/// ********************************************************************************
-	float getMediaPlayPosition();
+    float getMediaPlayPosition();
+
 	/// ********************************************************************************
 	/// <summary>
 	/// 设置媒体播放的位置(跳转到指定比例位置继续播放)
@@ -84,6 +89,7 @@ public:
 	/// <created>ymwh@foxmail.com,2018/7/31</created>
 	/// ********************************************************************************
 	int getMediaCurrentAudioTrack();
+
 	/// ********************************************************************************
 	/// <summary>
 	/// 设置播放媒体的音频轨道.
@@ -94,10 +100,11 @@ public:
 	void setMediaAudioTrack(int track);
 	// SetPlayerPosChangedCallback()
 
-	const std::string getLastError()
+    const std::string& getLastError()
 	{
-		return m_error_msg;
+        return m_errorMsg;
 	}
+
 private:
 	friend void handleEvents(const libvlc_event_t *event, void *userData);
 private:
@@ -105,8 +112,8 @@ private:
 	struct libvlc_media_player_t*   m_vlcMplay; // vlc媒体播放器对象
 	struct libvlc_media_t*          m_vlcMedia; // 媒体对象
 	bool	m_bPlaying;		// 是否正在播放
-	int     m_iVolume;		// 音量设置
-	std::string m_error_msg;
+    int     m_iVolume;		// 音量设置（如果为负数，表示当前为静音状态）
+    std::string m_errorMsg;
 };
 
 #endif //!VLCPALYER_HPP

@@ -2,7 +2,7 @@ QT       += core gui widgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++11
+CONFIG += c++17
 
 # 添加 qt-material-widget 库
 
@@ -20,10 +20,30 @@ CONFIG += c++11
 #else:unix: PRE_TARGETDEPS += $$OUT_PWD/../qt-material-widgets/components/libcomponents.a
 
 
+# 添加 libvlc 库
+libvlc_INC = $$dirname(PWD)/vlc-sdk/include
+INCLUDEPATH += $$libvlc_INC
+DEPENDPATH += $$libvlc_INC
+
+libvlc_LIB = $$dirname(PWD)/vlc-sdk/lib_x64
+libvlc_BIN = $$dirname(PWD)/vlc-sdk/bin_x64
+contains(QMAKE_HOST.arch, x86):{
+    libvlc_LIB = dirname($$PWD)/vlc-sdk/lib_x86
+    libvlc_BIN = dirname($$PWD)/vlc-sdk/bin_x86
+}
+#message($$libvlc_INC)
+#message($$libvlc_LIB)
+win32: LIBS += -L$$libvlc_LIB -llibvlc -llibvlccore
+
+
+
+win32: LIBS += -lUser32
+
 SOURCES += \
     vlcplayer.cpp \
     main.cpp \
-    playcontrolpanel.cpp
+    playcontrolpanel.cpp \
+    wallpaperwindow.cpp
 
 RESOURCES += \
     res.qrc
@@ -33,6 +53,5 @@ FORMS += \
 
 HEADERS += \
     vlcplayer.hpp \
-    playcontrolpanel.hpp
-
-
+    playcontrolpanel.hpp \
+    wallpaperwindow.hpp
