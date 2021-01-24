@@ -1,12 +1,24 @@
-﻿#include "stdafx.h"
-#include "VlcPlayer.h"
+﻿#include "vlcplayer.hpp"
 #include <vlc/vlc.h>
+
+
+// libvlc 下载地址 http://download.videolan.org/pub/videolan/vlc/
+
+std::string VlcPlayer::version()
+{
+    return libvlc_get_version();
+}
+
+std::string VlcPlayer::complier_version()
+{
+    return libvlc_get_compiler();
+}
 
 VlcPlayer::VlcPlayer()
 {
-	m_vlcInst = NULL;
-	m_vlcMplay = NULL;
-	m_vlcMedia = NULL;
+    m_vlcInst = nullptr;
+    m_vlcMplay = nullptr;
+    m_vlcMedia = nullptr;
 
 	m_bPlaying = false;
 	m_iVolume = 60;
@@ -16,39 +28,44 @@ VlcPlayer::VlcPlayer()
 VlcPlayer::~VlcPlayer()
 {
 	stopPlay();
+    if(m_vlcInst != nullptr) {
+        libvlc_release(m_vlcInst);
+    }
 }
 
 bool VlcPlayer::init()
 {
 	// 1、加载VLC引擎
-	m_vlcInst = libvlc_new(0, NULL);
-	if (m_vlcInst == NULL) {
+    m_vlcInst = libvlc_new(0, nullptr);
+    if (m_vlcInst == nullptr) {
 		const char* msg = libvlc_errmsg();
 		m_error_msg = msg ? msg : "Unkonwn Error";
 		return false;
-	}
+    }
 	return true;
 }
 
-bool VlcPlayer::startPlay(std::string mediaPath, HWND hwnd)
+bool VlcPlayer::startPlay(std::string mediaPath, WINDOWID wid)
 {
 	// 先停止现有的播放
 	stopPlay();
-	if (m_vlcInst == NULL) { return false; }
+    if (m_vlcInst == nullptr) { return false; }
 
 	// 2、创建媒体对象
+    // 路径必须是 UTF-8 编码的
 	m_vlcMedia = libvlc_media_new_path(m_vlcInst, mediaPath.c_str());
-	if (m_vlcMedia == NULL) { 
+    if (m_vlcMedia == nullptr) {
 		goto FAILED_RETURN;
-	}
+    }
 	libvlc_media_parse(m_vlcMedia); // 解析一下媒体文件
+    // libvlc_media_add_option(m_vlcMedia, "–vout=directx");
 	// 3、创建播放器
 	m_vlcMplay = libvlc_media_player_new_from_media(m_vlcMedia);
-	if (m_vlcMplay == NULL) {
+    if (m_vlcMplay == nullptr) {
 		goto FAILED_RETURN;
-	}
+    }
 	// 4、设置播放输出窗体
-	libvlc_media_player_set_hwnd(m_vlcMplay, hwnd);
+    libvlc_media_player_set_hwnd(m_vlcMplay, wid);
 	// 5、播放媒体
 	if (-1 == libvlc_media_player_play(m_vlcMplay)) {
 		goto FAILED_RETURN;
@@ -76,21 +93,21 @@ FAILED_RETURN:
 
 void VlcPlayer::stopPlay()
 {
-	//if (!m_bPlaying || m_vlcInst == NULL) {
+    //if (!m_bPlaying || m_vlcInst == nullptr) {
 		m_bPlaying = false;
 	//}
 
-	if (m_vlcMplay != NULL) {
+    if (m_vlcMplay != nullptr) {
 		// 停止播放
 		libvlc_media_player_stop(m_vlcMplay);
 		// 销毁播放器
 		libvlc_media_player_release(m_vlcMplay);
-		m_vlcMplay = NULL;
+        m_vlcMplay = nullptr;
 	}
-	if (m_vlcMedia != NULL) {
+    if (m_vlcMedia != nullptr) {
 		// 销毁媒体对象
 		libvlc_media_release(m_vlcMedia);
-		m_vlcMedia = NULL;
+        m_vlcMedia = nullptr;
 	}
 	m_bPlaying = false;
 }
@@ -107,7 +124,7 @@ void VlcPlayer::setMute(bool mute)
 
 void VlcPlayer::setVolume(int volume)
 {
-	if (m_vlcMplay == NULL) { return; }
+    if (m_vlcMplay == nullptr) { return; }
 	// 设置音量
 	volume = volume < 0 ? 0 : (volume > 100 ? 100 : volume);
 	libvlc_audio_set_volume(m_vlcMplay, volume);
@@ -115,8 +132,8 @@ void VlcPlayer::setVolume(int volume)
 
 bool VlcPlayer::setPlayRate(float rate)
 {
-	if (!m_bPlaying || m_vlcInst == NULL ||
-		m_vlcMplay == NULL || m_vlcMedia == NULL) {
+    if (!m_bPlaying || m_vlcInst == nullptr ||
+        m_vlcMplay == nullptr || m_vlcMedia == nullptr) {
 		return false;
 	}
 	if (-1 == libvlc_media_player_set_rate(m_vlcMplay, rate)) {
@@ -129,8 +146,8 @@ bool VlcPlayer::setPlayRate(float rate)
 
 bool VlcPlayer::setPlayPos(float pos)
 {
-	if (!m_bPlaying || m_vlcInst == NULL ||
-		m_vlcMplay == NULL || m_vlcMedia == NULL) {
+    if (!m_bPlaying || m_vlcInst == nullptr ||
+        m_vlcMplay == nullptr || m_vlcMedia == nullptr) {
 		return false;
 	}
 	libvlc_media_player_set_position(m_vlcMplay, pos);
@@ -139,8 +156,8 @@ bool VlcPlayer::setPlayPos(float pos)
 
 void VlcPlayer::pausePlay()
 {
-	if (!m_bPlaying || m_vlcInst == NULL ||
-		m_vlcMplay == NULL || m_vlcMedia == NULL) {
+    if (!m_bPlaying || m_vlcInst == nullptr ||
+        m_vlcMplay == nullptr || m_vlcMedia == nullptr) {
 		return;
 	}
 
@@ -154,8 +171,8 @@ void VlcPlayer::pausePlay()
 
 void VlcPlayer::continuePlay()
 {
-	if (!m_bPlaying || m_vlcInst == NULL ||
-		m_vlcMplay == NULL || m_vlcMedia == NULL) {
+    if (!m_bPlaying || m_vlcInst == nullptr ||
+        m_vlcMplay == nullptr || m_vlcMedia == nullptr) {
 		return;
 	}
 	if (libvlc_media_player_is_playing(m_vlcMplay) == 0) {
@@ -172,8 +189,8 @@ bool VlcPlayer::isPlaying()
 
 int64_t VlcPlayer::getMediaTimeLength()
 {
-	if (!m_bPlaying || m_vlcInst == NULL ||
-		m_vlcMplay == NULL || m_vlcMedia == NULL) {
+    if (!m_bPlaying || m_vlcInst == nullptr ||
+        m_vlcMplay == nullptr || m_vlcMedia == nullptr) {
 		return -1;
 	}
 	return libvlc_media_player_get_length(m_vlcMplay);
@@ -181,8 +198,8 @@ int64_t VlcPlayer::getMediaTimeLength()
 
 int64_t VlcPlayer::getMediaPlayTime()
 {
-	if (!m_bPlaying || m_vlcInst == NULL ||
-		m_vlcMplay == NULL || m_vlcMedia == NULL) {
+    if (!m_bPlaying || m_vlcInst == nullptr ||
+        m_vlcMplay == nullptr || m_vlcMedia == nullptr) {
 		return -1;
 	}
 	return libvlc_media_player_get_time(m_vlcMplay);
@@ -190,8 +207,8 @@ int64_t VlcPlayer::getMediaPlayTime()
 
 float VlcPlayer::getMediaPlayPosition()
 {
-	if (!m_bPlaying || m_vlcInst == NULL ||
-		m_vlcMplay == NULL || m_vlcMedia == NULL) {
+    if (!m_bPlaying || m_vlcInst == nullptr ||
+        m_vlcMplay == nullptr || m_vlcMedia == nullptr) {
 		return -1.0f;
 	}
 	return libvlc_media_player_get_position(m_vlcMplay);
@@ -199,8 +216,8 @@ float VlcPlayer::getMediaPlayPosition()
 
 void VlcPlayer::setMediaPlayPosition(float pos)
 {
-	if (!m_bPlaying || m_vlcInst == NULL ||
-		m_vlcMplay == NULL || m_vlcMedia == NULL) {
+    if (!m_bPlaying || m_vlcInst == nullptr ||
+        m_vlcMplay == nullptr || m_vlcMedia == nullptr) {
 		return;
 	}
 	if (pos < 0.0f || pos > 1.0f) { return; }
@@ -209,7 +226,7 @@ void VlcPlayer::setMediaPlayPosition(float pos)
 
 std::map<int, std::string> VlcPlayer::getMediaAudioTracks()
 {
-	if (m_vlcMplay == NULL) { return std::map<int, std::string>(); }
+    if (m_vlcMplay == nullptr) { return std::map<int, std::string>(); }
 	/*libvlc_media_parse(m_vlcMedia);*/
 	
 	std::map<int, std::string> audiotrtacks;
@@ -226,7 +243,7 @@ std::map<int, std::string> VlcPlayer::getMediaAudioTracks()
 	libvlc_track_description_list_release(tracks);
 	// https://blog.csdn.net/liang19890820/article/details/80503302
 	// 用于存储媒体轨迹的信息
-	// libvlc_media_track_t **tracks = NULL;
+    // libvlc_media_track_t **tracks = nullptr;
 	// unsigned tracksCount = 0;
 	// std::vector<int> audiochannels;
 	// // 获取轨道信息
@@ -245,14 +262,14 @@ std::map<int, std::string> VlcPlayer::getMediaAudioTracks()
 
 void VlcPlayer::setMediaAudioTrack(int track)
 {
-	if (m_vlcMplay == NULL) { return; }
+    if (m_vlcMplay == nullptr) { return; }
 	// 设置音量
 	libvlc_audio_set_track(m_vlcMplay, track);
 }
 
 int VlcPlayer::getMediaCurrentAudioTrack()
 {
-	if (m_vlcMplay == NULL) { return 0; }
+    if (m_vlcMplay == nullptr) { return 0; }
 	// 设置音量
 	return libvlc_audio_get_track(m_vlcMplay);
 }

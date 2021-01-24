@@ -1,4 +1,7 @@
-﻿#pragma once
+﻿#ifndef VLCPALYER_HPP
+#define VLCPALYER_HPP
+
+#include "wallpaperwindow.hpp"
 
 #include <string>
 #include <map>
@@ -11,12 +14,16 @@ struct libvlc_event_t;
 class VlcPlayer
 {
 public:
+    static std::string version();
+    static std::string complier_version();
+
+public:
 	VlcPlayer();
 	~VlcPlayer();
 	// 初始化播放器
 	bool init();
 	// 开始播放
-	bool startPlay(std::string mediaPath,HWND hwnd);
+    bool startPlay(std::string mediaPath,WINDOWID hwnd);
 	// 停止播放
 	void stopPlay();
 	// 静音
@@ -102,3 +109,4 @@ private:
 	std::string m_error_msg;
 };
 
+#endif //!VLCPALYER_HPP
