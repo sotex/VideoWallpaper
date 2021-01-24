@@ -47,7 +47,7 @@ VLC_API void EndMD5( struct md5_s * );
  */
 static inline char * psz_md5_hash( struct md5_s *md5_s )
 {
-    char *psz = malloc( 33 ); /* md5 string is 32 bytes + NULL character */
+    char *psz = (char*)malloc( 33 ); /* md5 string is 32 bytes + NULL character */
     if( likely(psz) )
     {
         for( int i = 0; i < 16; i++ )

@@ -2,7 +2,7 @@
  * vlc_config_cat.h : Definition of configuration categories
  *****************************************************************************
  * Copyright (C) 2003 VLC authors and VideoLAN
- * $Id: 00d7352f061379bd7eca6cbfea6af347dd5ea0cb $
+ * $Id: 55d2e468d1ccc3fcd8d165dcecc10ec753021a5e $
  *
  * Authors: Clément Stenac <zorglub@videolan.org>
  *          Anil Daoud <anil@videolan.org>
@@ -58,6 +58,8 @@
 #define AFILTER_TITLE N_("Filters")
 #define AFILTER_HELP N_( "Audio filters are used to process the audio stream." )
 
+#define ARESAMPLER_TITLE N_("Audio resampler")
+
 #define AVISUAL_TITLE N_("Visualizations")
 #define AVISUAL_HELP N_( "Audio visualizations" )
 
@@ -82,6 +84,10 @@
 #define SUBPIC_TITLE N_( "Subtitles / OSD")
 #define SUBPIC_HELP N_( "Settings related to On-Screen-Display,"\
         " subtitles and \"overlay subpictures\"")
+
+#define SPLITTER_TITLE N_("Splitters")
+#define SPLITTER_HELP N_("Video splitters separate the stream into multiple videos.")
+
 /*
 #define TEXT_HELP N_( \
     "Use the settings of the \"freetype\" module to choose the font you " \
@@ -194,6 +200,7 @@ static const struct config_category_t categories_array[] =
     { SUBCAT_AUDIO_GENERAL, AUDIO_TITLE, AUDIO_GENERAL_HELP },
     { SUBCAT_AUDIO_AOUT, AOUT_TITLE, AOUT_HELP },
     { SUBCAT_AUDIO_AFILTER, AFILTER_TITLE, AFILTER_HELP },
+    { SUBCAT_AUDIO_RESAMPLER, ARESAMPLER_TITLE, AFILTER_HELP },
     { SUBCAT_AUDIO_VISUAL, AVISUAL_TITLE, AVISUAL_HELP },
     { SUBCAT_AUDIO_MISC, AMISC_TITLE, AMISC_HELP },
 
@@ -202,6 +209,7 @@ static const struct config_category_t categories_array[] =
     { SUBCAT_VIDEO_VOUT, _VOUT_TITLE, VOUT_HELP },
     { SUBCAT_VIDEO_VFILTER, VFILTER_TITLE, VFILTER_HELP },
     { SUBCAT_VIDEO_SUBPIC, SUBPIC_TITLE, SUBPIC_HELP },
+    { SUBCAT_VIDEO_SPLITTER, SPLITTER_TITLE, SPLITTER_HELP },
 
     { CAT_INPUT, INPUT_TITLE, INPUT_HELP },
     { SUBCAT_INPUT_GENERAL, INPUT_TITLE, INPUT_HELP },
