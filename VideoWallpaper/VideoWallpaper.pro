@@ -39,7 +39,14 @@ win32: LIBS += -L$$libvlc_LIB -llibvlc -llibvlccore
 
 win32: LIBS += -lUser32
 
+INCLUDEPATH += $$dirname(PWD)/VideoWallpaper/interactive_buttons
+INCLUDEPATH += $$dirname(PWD)/VideoWallpaper/gallery
+
 SOURCES += \
+    gallery/galleryphotowidget.cpp \
+    gallery/gallerywidget.cpp \
+    interactive_buttons/interactivebuttonbase.cpp \
+    interactive_buttons/waterzoombutton.cpp \
     vlcplayer.cpp \
     main.cpp \
     playcontrolpanel.cpp \
@@ -52,6 +59,10 @@ FORMS += \
     playcontrolpanel.ui
 
 HEADERS += \
+    gallery/galleryphotowidget.h \
+    gallery/gallerywidget.h \
+    interactive_buttons/interactivebuttonbase.h \
+    interactive_buttons/waterzoombutton.h \
     vlcplayer.hpp \
     playcontrolpanel.hpp \
     wallpaperwindow.hpp

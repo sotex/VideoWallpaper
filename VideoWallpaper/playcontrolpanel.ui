@@ -165,10 +165,18 @@
     </layout>
    </item>
    <item>
-    <widget class="QWidget" name="_widgetPlayList" native="true"/>
+    <widget class="GalleryWidget" name="_widgetPlayList" native="true"/>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>GalleryWidget</class>
+   <extends>QWidget</extends>
+   <header>gallery/gallerywidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="res.qrc"/>
  </resources>

@@ -1,6 +1,9 @@
 ﻿#include "playcontrolpanel.hpp"
 #include "ui_playcontrolpanel.h"
 
+#include "gallerywidget.h"
+#include "interactivebuttonbase.h"
+
 #include "vlcplayer.hpp"
 
 #include <QDragMoveEvent>
