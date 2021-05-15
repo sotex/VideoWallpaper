@@ -4,6 +4,9 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
 
+VERSION     = 2021.05.15
+RC_ICONS    = icon/VideoWallpaper.ico
+
 # 添加 qt-material-widget 库
 
 #INCLUDEPATH += $$PWD/../qt-material-widgets/components
